@@ -1,11 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
+import { createGlobalStyle } from 'styled-components';
+
+// STYLES
+const Global = createGlobalStyle`
+* {
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+}
+`
 
 ReactDOM.render(
-  <React.StrictMode>
+  <>
+    <Global />
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+  </>,
+ document.getElementById('root')
 );
