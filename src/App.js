@@ -7,7 +7,8 @@ import { calculateWinner } from './utils';
 // COMPONENTS
 import Board from './components/Board';
 import Flex from './components/Flex';
-import Title from './components/Title'
+import Title from './components/Title';
+import Footer from './components/Footer'
 // SOUNDS
 import clickSoundX from './assets/sounds/click-1.mp3';
 import clickSoundO from './assets/sounds/click-2.mp3';
@@ -131,12 +132,13 @@ const App = () => {
                   Restart
                 </StyledButton>
                 <StyledButton onClick={themeToggler}>Switch Theme</StyledButton>
+                <Footer />
               </Flex>
                 
               <ul>
                 {renderMoves()}
               </ul>
-            </Flex>
+            </Flex>        
           </AppWrapper>
       </>
     </ThemeProvider>
