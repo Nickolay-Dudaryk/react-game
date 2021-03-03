@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import useSound from 'use-sound';
-import Board from './components/Board';
 import styled from 'styled-components';
-
+// COMPONENTS
+import Board from './components/Board';
+import Flex from './components/Flex';
+import Title from './components/Title'
+// SOUNDS
 import clickSoundX from './assets/sounds/click-1.mp3';
 import clickSoundO from './assets/sounds/click-2.mp3';
+import endGameSound from './assets/sounds/end-game.mp3';
 
 // STYLES
 const AppWrapper = styled.div`
@@ -13,21 +17,10 @@ min-height: 100vh;
 display: flex;
 justify-content: center;
 align-items: center;
-flex-direction: column; 
 `
-
 const ListItem = styled.li`
 list-style: none;
 `
-
-const HistoryWrapper = styled.div`
-min-height: 300px;
-width: 100%;
-display: flex;
-align-items: center;
-flex-direction: column;
-`
-
 const StyledButton = styled.button`
 width: 125px;
 height: 45px;
@@ -46,7 +39,7 @@ const App = () => {
 
   const [playX] = useSound(clickSoundX);
   const [playO] = useSound(clickSoundO);
-  
+  const [playEndGame] = useSound(endGameSound);
   
   const calculateWinner = (squares) => {
     const lines = [
@@ -69,14 +62,23 @@ const App = () => {
     return null;
   }
 
+  const calculateIsOccupied = () => history[stepNumber].indexOf(null) === - 1
+
   const winner = calculateWinner(history[stepNumber]);
+  const isOccupied = calculateIsOccupied()
   const xO = xIsNext ? 'X' : 'O';
+
+  useEffect(() => {
+    if (winner || isOccupied) {
+      playEndGame()
+    };
+  }, [playEndGame, winner, isOccupied])
 
   const handleClick = (i) => {
     const historyPoint = history.slice(0, stepNumber + 1);
     const current = historyPoint[stepNumber];
     const squares = [...current];
-    if (winner || squares[i]) return; //if won || occupied
+    if (winner || isOccupied) return; //if won || occupied
     squares[i] = xO;
     squares[i] === 'X' ? playX() : playO();
     setHistory([...historyPoint, squares]);
@@ -108,14 +110,28 @@ const App = () => {
 
   return (
     <AppWrapper>
-      <Board squares={history[stepNumber]} onClick={handleClick} />
-      <HistoryWrapper>
-        <button onClick={() => restartGame()}>Restart</button>
-        <h3 style={winner ? {backgroundColor: 'lightgreen'} : null}>
-          {winner ? `winner: ${winner}` : `next player: ${xO}`}
-        </h3>
-        {renderMoves()}
-      </HistoryWrapper>
+      <Flex justify='center' align='center'>
+        <Flex justify='center' align='center' direction='column'>
+          <Board squares={history[stepNumber]} onClick={handleClick} />
+          <Title bgcolor={winner ? 'lightgreen' : null}>
+            {winner
+             ? `winner: ${winner}`
+             : isOccupied ? 'Draw'
+             : `next player: ${xO}`
+            }
+          </Title>
+          <StyledButton 
+            style={winner || isOccupied ? {backgroundColor: 'lightblue'} : null}
+            onClick={() => restartGame()}
+          >
+            Restart
+          </StyledButton>
+        </Flex>
+
+        <ul>
+          {renderMoves()}
+        </ul>
+      </Flex>
     </AppWrapper>
   )
 }
