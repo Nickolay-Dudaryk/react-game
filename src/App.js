@@ -55,10 +55,11 @@ const App = () => {
   const [stepNumber, setStepNumber] = useState(0);
   const [xIsNext, setXisNext] = useState(true);
   const [theme, setTheme] = useState('light');
+  const [volumeLevel, setVolumeLevel] = useState(true);
 
-  const [playX] = useSound(clickSoundX);
-  const [playO] = useSound(clickSoundO);
-  const [playEndGame] = useSound(endGameSound);
+  const [playX] = useSound(clickSoundX, {volume: volumeLevel ? 1 : 0});
+  const [playO] = useSound(clickSoundO, {volume: volumeLevel ? 1 : 0});
+  const [playEndGame] = useSound(endGameSound, {volume: volumeLevel ? 1 : 0});
 
   const themeToggler = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light')
@@ -117,6 +118,18 @@ const App = () => {
           <AppWrapper>
             <Flex justify='center' align='center'>
               <Flex justify='center' align='center' direction='column'>
+                <Flex justify='center' align='center'>
+                  <h3 style={{marginRight: '15px'}}>Sounds</h3>
+                  <input
+                   type='checkbox'
+                   style={{width: '25px', height: '25px'}}
+                   checked={volumeLevel}
+                   onChange={() => {
+                    setVolumeLevel(!volumeLevel);
+                    }} 
+                  />
+                </Flex>
+
                 <Board squares={history[stepNumber]} onClick={handleClick} />
                 <Title bgcolor={winner ? 'lightgreen' : null}>
                   {winner
