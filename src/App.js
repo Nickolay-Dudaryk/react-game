@@ -63,23 +63,23 @@ const App = () => {
     theme === 'light' ? setTheme('dark') : setTheme('light')
   }
 
-  const calculateIsOccupied = () => history[stepNumber].indexOf(null) === - 1
+  const calculateIsDraw = () => history[stepNumber].indexOf(null) === - 1
 
   const winner = calculateWinner(history[stepNumber]);
-  const isOccupied = calculateIsOccupied()
+  const isDraw = calculateIsDraw()
   const xO = xIsNext ? 'X' : 'O';
 
   useEffect(() => {
-    if (winner || isOccupied) {
+    if (winner || isDraw) {
       playEndGame()
     };
-  }, [playEndGame, winner, isOccupied])
+  }, [playEndGame, winner, isDraw])
 
   const handleClick = (i) => {
     const historyPoint = history.slice(0, stepNumber + 1);
     const current = historyPoint[stepNumber];
     const squares = [...current];
-    if (winner || isOccupied) return; //if won || occupied
+    if (winner || squares[i]) return; //if won || occupied
     squares[i] = xO;
     squares[i] === 'X' ? playX() : playO();
     setHistory([...historyPoint, squares]);
@@ -120,12 +120,12 @@ const App = () => {
                 <Title bgcolor={winner ? 'lightgreen' : null}>
                   {winner
                    ? `winner: ${winner}`
-                   : isOccupied ? 'Draw'
+                   : isDraw ? 'Draw'
                    : `next player: ${xO}`
                   }
                 </Title>
                 <StyledButton 
-                  style={winner || isOccupied ? {backgroundColor: 'lightblue'} : null}
+                  style={winner || isDraw ? {backgroundColor: 'lightblue'} : null}
                   onClick={() => restartGame()}
                 >
                   Restart
