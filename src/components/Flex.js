@@ -6,6 +6,9 @@ const StyledFlex = styled.div`
   justify-content: ${props => props.justify || 'stretch'};
   align-items: ${props => props.align || 'stretch'};
   margin: ${props => props.margin || '0'};
+  @media only screen and (max-width: 600px){
+    flex-direction: column;
+  }
 `
 
 const Flex = (props) => <StyledFlex {...props} />

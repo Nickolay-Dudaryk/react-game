@@ -11,6 +11,9 @@ grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 gap: 0.4rem;
 padding: 20px;
 margin: 0;
+@media only screen and (max-width: 600px){
+    flex-direction: column;
+  }
 `
 
 const Board = ({ squares, onClick }) => (

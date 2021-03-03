@@ -3,10 +3,6 @@ import logoImg from '../assets/images/logo.svg';
 const Footer = () => {
   const styles = {
     width: '100%',
-    position:'absolute',
-    left:'0',
-    bottom:'10px',
-    right:'0',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center'

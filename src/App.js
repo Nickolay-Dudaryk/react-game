@@ -30,7 +30,7 @@ body {
 `
 const AppWrapper = styled.div`
 max-width: 500px;
-min-height: 100vh;
+min-height: 95vh;
 display: flex;
 justify-content: center;
 align-items: center;
@@ -132,7 +132,6 @@ const App = () => {
                   Restart
                 </StyledButton>
                 <StyledButton onClick={themeToggler}>Switch Theme</StyledButton>
-                <Footer />
               </Flex>
                 
               <ul>
@@ -140,7 +139,9 @@ const App = () => {
               </ul>
             </Flex>        
           </AppWrapper>
+          <Footer />
       </>
+
     </ThemeProvider>
   )
 }
